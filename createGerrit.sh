@@ -10,6 +10,9 @@ PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
 GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
 POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 
+BASEDIR=$(readlink -f $(dirname $0))
+ENTRYPOINT_SCRIPT=${BASEDIR}/http_ldap_config.sh
+
 # Start PostgreSQL.
 docker run \
 --name ${PG_GERRIT_NAME} \
@@ -40,8 +43,10 @@ docker run \
 -e WEBURL=${GERRIT_WEBURL} \
 -e HTTPD_LISTENURL=${HTTPD_LISTENURL} \
 -e DATABASE_TYPE=postgresql \
--e AUTH_TYPE=LDAP \
+-e AUTH_TYPE=HTTP_LDAP \
 -e LDAP_SERVER=${LDAP_SERVER} \
 -e LDAP_ACCOUNTBASE=${LDAP_ACCOUNTBASE} \
 -d ${GERRIT_IMAGE_NAME}
 
+docker cp ${ENTRYPOINT_SCRIPT} ${GERRIT_NAME}:/docker-entrypoint-init.d/
+docker restart ${GERRIT_NAME}
