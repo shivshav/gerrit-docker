@@ -7,7 +7,7 @@ HTTPD_LISTENURL=${4:-http://*:8080}
 GERRIT_NAME=${GERRIT_NAME:-gerrit}
 GERRIT_VOLUME=${GERRIT_VOLUME:-gerrit-volume}
 PG_GERRIT_NAME=${PG_GERRIT_NAME:-pg-gerrit}
-GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-openfrontier/gerrit}
+GERRIT_IMAGE_NAME=${GERRIT_IMAGE_NAME:-ci/gerrit}
 POSTGRES_IMAGE=${POSTGRES_IMAGE:-postgres}
 
 BASEDIR=$(readlink -f $(dirname $0))
@@ -40,6 +40,7 @@ docker run \
 --link ${LDAP_SERVER} \
 -p 29418:29418 \
 --volumes-from ${GERRIT_VOLUME} \
+-v ~/.ssh/id_rsa.pub:/id_rsa.pub \
 -e WEBURL=${GERRIT_WEBURL} \
 -e HTTPD_LISTENURL=${HTTPD_LISTENURL} \
 -e DATABASE_TYPE=postgresql \
