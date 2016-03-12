@@ -48,6 +48,3 @@ docker run \
 -e LDAP_SERVER=${LDAP_SERVER} \
 -e LDAP_ACCOUNTBASE=${LDAP_ACCOUNTBASE} \
 -d ${GERRIT_IMAGE_NAME}
-
-docker cp ${ENTRYPOINT_SCRIPT} ${GERRIT_NAME}:/docker-entrypoint-init.d/
-docker restart ${GERRIT_NAME}
