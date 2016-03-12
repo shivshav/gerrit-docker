@@ -1,25 +1,22 @@
 #!/bin/bash
-set -x
 
 echo "Doing first run configuration..."
 
-until curl http://localhost:8080/
+until $(curl --output /dev/null --silent --head http://localhost:8080/gerrit)
 do
     echo "Waiting gerrit ready."
     sleep 1
 done
 
 echo "Setup Admin user."
-/addAdminUser.sh
-
-echo "Setup SSH Key."
-/addSSHKey.sh
+/setupAdminUser.sh
 
 echo "Setup Gerrit-Jenkins connection."
 /setupGerritJenkins.sh
 
-echo "Remove scripts."
-rm /addAdminUser.sh
-rm /addSSHKey.sh
-rm /first-run.sh
+echo "Removing scripts."
+rm /setupAdminUser.sh
 rm /setupGerritJenkins.sh
+rm /first-run.sh
+
+echo "First time setup complete"
