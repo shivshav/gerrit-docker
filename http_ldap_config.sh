@@ -2,7 +2,6 @@
   if [ "${AUTH_TYPE}" = 'HTTP_LDAP' ]; then
     set_gerrit_config auth.type "${AUTH_TYPE}"
     set_gerrit_config auth.gitBasicAuth true
-    set_gerrit_config auth.httpHeader "X-Remote-User"
     set_gerrit_config auth.trustContainerAuth true
     [ -z "${LDAP_SERVER}" ]                   || set_gerrit_config ldap.server "ldap://${LDAP_SERVER}"
     [ -z "${LDAP_SSLVERIFY}" ]                || set_gerrit_config ldap.sslVerify "${LDAP_SSLVERIFY}"
